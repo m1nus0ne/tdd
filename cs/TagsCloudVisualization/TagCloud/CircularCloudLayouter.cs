@@ -2,11 +2,8 @@
 
 namespace TagsCloudVisualization.TagCloud;
 
-public class CircularCloudLayouter(Point center)
+public class CircularCloudLayouter(Point center, IPositionCalculator calculator)
 {
-    private readonly Point center = center;
-    private readonly IPositionCalculator calculator = new SpiralPositionCalculator(center);
-
     public List<Rectangle> Rectangles { get; private set; } = [];
 
     public Rectangle PutNextRectangle(Size rectangleSize)
@@ -16,7 +13,8 @@ public class CircularCloudLayouter(Point center)
         if (rectangleSize.Height <= 0)
             throw new ArgumentException("Size height must be positive number");
 
-        var temp = calculator.CalculateNextPosition(Rectangles, rectangleSize); //вывести на ленивую реализацию?
+        var temp = calculator.CalculateNextPosition(rectangleSize)
+            .First(rectangle => calculator.IsRectanglePositionValid(Rectangles, rectangle));
         Rectangles.Add(temp);
         return temp;
     }

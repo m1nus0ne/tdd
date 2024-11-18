@@ -1,8 +1,10 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace TagsCloudVisualization.TagCloud;
 
 public interface ICloudDrawer
 {
-    public void DrawCloud(List<Rectangle> rectangles, string? fileName, string? path, int imageWidth);
+    public Bitmap DrawCloud(List<Rectangle> rectangles,  int imageWidth, int imageHeight);
+    public void SaveToFile(Bitmap bitmap, string? fileName, string? path, ImageFormat format);
 }
